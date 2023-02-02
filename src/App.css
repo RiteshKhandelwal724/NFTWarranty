@@ -1,0 +1,107 @@
+.App {
+  /* text-align: center; */
+  font-family: Georgia, serif;
+}
+
+.Description {
+  text-align: right;
+}
+.align {
+  text-align: left;
+}
+
+.navbar {
+  min-height: 80px;
+  margin-top: -20px;
+}
+.navbar-brand {
+  color: white;
+  padding-top: 20px;
+  font-size: 30px;
+  font-weight: 500;
+}
+.img-fluid {
+  height: 15rem !important;
+  width: 100% !important;
+}
+.form-inline {
+  margin-top: 17px !important;
+}
+.imgBox {
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  border: 1px solid #3f729b;
+  margin-top: 10px;
+}
+
+.leftHeader {
+  background: linear-gradient(180deg, #4aaebd 0%, rgba(108, 12, 184, 0) 100%);
+}
+
+.my-fev {
+  color: "white";
+  background-color: "#FD6412";
+}
+.my-not-fev {
+  color: "white";
+  background-color: "#FD6412";
+}
+
+.MuiButton-containedPrimary {
+  background-color: #d04a02 !important;
+  border-color: #d04a02 !important;
+  color: #ffffff !important;
+}
+
+.MuiButton-outlinedPrimary {
+  border-color: #d92e1d !important;
+  color: #d92e1d !important;
+}
+
+.css-1q39md6-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: #ad1b02 !important;
+}
+
+a:hover {
+  color: #f3be26 !important;
+}
+
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root:hover {
+  color: #ad1b02 !important;
+  font-weight: 600 !important;
+}
+
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+  color: #e88d14 !important;
+}
+
+.css-kpm0tx-MuiButtonBase-root-MuiButton-root:hover {
+  color: #ad1b02 !important;
+  font-weight: 600 !important;
+}
+
+.css-kpm0tx-MuiButtonBase-root-MuiButton-root {
+  color: #e88d14 !important;
+}
+.css-1atbtaw-MuiTypography-root-MuiLink-root,
+.css-9old6e {
+  color: black !important;
+}
+.css-66npy3-MuiTypography-root-MuiLink-root {
+  color: white !important;
+}
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+  color: #e88d14 !important;
+}
+.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root.Mui-focused,
+.css-348fk2.Mui-focused {
+  color: black !important;
+}
+.css-1a1fmpi-MuiInputBase-root-MuiInput-root:after,
+.css-1ptx2yq-MuiInputBase-root-MuiInput-root:after,
+.css-1yf1g2m::after,
+.css-1vv4lmi::after {
+  border-bottom: 1px solid black !important;
+}

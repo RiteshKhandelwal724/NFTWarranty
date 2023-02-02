@@ -1,0 +1,64 @@
+{
+  "name": "warranty",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@date-io/moment": "^2.16.1",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.10.16",
+    "@mui/lab": "^5.0.0-alpha.110",
+    "@mui/material": "^5.10.16",
+    "@mui/styled-engine": "^5.10.16",
+    "@mui/x-date-pickers": "^5.0.15",
+    "@openzeppelin/contracts": "^4.8.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@truffle/contract": "^4.4.1",
+    "axios": "^1.2.1",
+    "cors": "^2.8.5",
+    "ethers": "^5.7.2",
+    "formik": "^2.2.9",
+    "jotai": "^1.11.1",
+    "moment": "^2.29.4",
+    "nodemon": "^2.0.15",
+    "openzeppelin-solidity": "4.6.0",
+    "react": "^18.2.0",
+    "react-detect-offline": "^2.4.5",
+    "react-dom": "^18.2.0",
+    "react-material-ui-carousel": "^3.4.2",
+    "react-qr-code": "^2.0.11",
+    "react-qr-scanner": "^1.0.0-alpha.11",
+    "react-razorpay": "^1.2.0",
+    "react-router-dom": "^6.4.3",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4",
+    "web3": "^1.8.1",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

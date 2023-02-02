@@ -1,0 +1,13 @@
+.dashboard-card {
+  height: 20px;
+  padding: 14px;
+}
+
+.dashboardContainer {
+  width: 100% !important;
+  overflow-y: scroll;
+  height: 60vh !important;
+  padding-left: 0px !important;
+  margin-left: 2px !important;
+  margin-top: 0px !important;
+}

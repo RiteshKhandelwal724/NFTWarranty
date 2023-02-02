@@ -1,0 +1,14 @@
+import { atom } from "jotai";
+export const priceValue = atom(0);
+export const tokenValue = atom(localStorage.getItem("token"));
+export const productId = atom("");
+export const qrUrl = atom(null);
+export const warrantyContractState = atom(null);
+export const tokensState = atom([]);
+export const tokensCountState = atom(0);
+export const accountState = atom("");
+export const prodData = atom({});
+export const prodImages = atom([]);
+export const profileState = atom({});
+export const verifyWarrantyState = atom("");
+export const registeredProductResponse = atom({});
