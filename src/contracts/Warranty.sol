@@ -56,6 +56,10 @@ contract Warranty is ERC721URIStorage,Ownable{
     function getTokens()public view returns (uint256[] memory){
         return nftTokenList;
 }
+
+   
+
+
     
     function assignTokenToProduct(uint256 _id)public {
         uint256 supply=totalSupply;

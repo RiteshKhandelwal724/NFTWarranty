@@ -9,6 +9,7 @@ const AboutUs = () => {
         variant="h5"
         gutterBottom
         color="black"
+        className="qwerty"
         sx={{ fontWeight: "bold", padding: "15px 0 0 15px" }}
       >
         About{" "}
