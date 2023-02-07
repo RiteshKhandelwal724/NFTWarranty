@@ -16,6 +16,8 @@ import ContactUs from "./components/ContactUs";
 import AboutUs from "./components/About";
 import Dashboard from "./components/Dashboard";
 import Transactions from "./components/MyTransactions";
+import Web3Login from "./components/Web3Login";
+import GoogleLogin from "./components/GoogleLogin";
 
 class Routing extends React.Component {
   render() {
@@ -68,6 +70,15 @@ class Routing extends React.Component {
             </ProtectedRoute>
           }
         />
+        <Route
+          exact
+          path="/LoginAuth"
+          element={
+            <ProtectedRoute>
+              <Web3Login />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           exact
@@ -78,6 +89,7 @@ class Routing extends React.Component {
             </ProtectedRoute>
           }
         />
+        <Route exact path="/authorize" element={<GoogleLogin />} />
 
         <Route
           exact
