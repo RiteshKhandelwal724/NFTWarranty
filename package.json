@@ -31,6 +31,7 @@
     "ethers": "^5.7.2",
     "formik": "^2.2.9",
     "jotai": "^1.11.1",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "nodemon": "^2.0.15",
     "openzeppelin-solidity": "4.6.0",
