@@ -6,9 +6,31 @@ import { CHAIN_NAMESPACES, WALLET_ADAPTERS } from "@web3auth/base";
 const name = "Login with Auth0";
 const iconUrl = "https://avatars.githubusercontent.com/u/2824157?s=280&v=4";
 
-const Web3AuthConnectorComp = async ({ chains }) => {
+let web3AuthInstance;
+
+const openLoginModal = async () => {
+  await web3AuthInstance.initModal({
+    modalConfig: {
+      [WALLET_ADAPTERS.OPENLOGIN]: {
+        label: "openlogin",
+        loginMethods: {
+          google: {
+            name: "google login",
+            logoDark: "url to your custom logo which will shown in dark mode",
+          },
+        },
+        // setting it to false will hide all social login methods from modal.
+        showOnModal: true,
+      },
+    },
+  });
+
+  await web3AuthInstance.connect();
+};
+
+const Web3AuthConnectorComp = ({ chains }) => {
   // Create Web3Auth Instance
-  const web3AuthInstance = new Web3AuthCore({
+  web3AuthInstance = new Web3AuthCore({
     clientId:
       "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc",
     chainConfig: {
@@ -44,24 +66,9 @@ const Web3AuthConnectorComp = async ({ chains }) => {
     },
   });
   web3AuthInstance.configureAdapter(openloginAdapter);
+  openLoginModal();
 
-  await web3AuthInstance.initModal({
-    modalConfig: {
-      [WALLET_ADAPTERS.OPENLOGIN]: {
-        label: "openlogin",
-        loginMethods: {
-          google: {
-            name: "google login",
-            logoDark: "url to your custom logo which will shown in dark mode",
-          },
-        },
-        // setting it to false will hide all social login methods from modal.
-        showOnModal: true,
-      },
-    },
-  });
-
-  await web3AuthInstance.connect();
+  // await web3AuthInstance.connect();
   return {
     id: "web3auth",
     name,
