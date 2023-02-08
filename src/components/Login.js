@@ -87,7 +87,7 @@ export default function Login() {
             Or
           </Grid>
           <Grid>
-            <GoogleLoginComp />
+            <GoogleLoginComp setToken={setToken} />
           </Grid>
 
           {!smUp && (

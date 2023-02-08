@@ -34,6 +34,12 @@ const Web3AuthConnectorComp = ({ chains }) => {
           typeOfLogin: "jwt",
           clientId: "294QRkchfq2YaXUbPri7D6PH7xzHgQMT",
         },
+        google: {
+          verifier: "Warranty", // Pass the Verifier name here
+          typeOfLogin: "google", // Pass on the login provider of the verifier you've created
+          clientId:
+            "396097899910-lj5lq2vm75thigo6t5l2fjiv3d7gsn6n.apps.googleusercontent.com", // Pass on the Google `Client ID` here
+        },
       },
     },
   });
