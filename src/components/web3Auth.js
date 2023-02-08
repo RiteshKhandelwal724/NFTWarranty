@@ -1,7 +1,7 @@
 import { Web3AuthConnector } from "@web3auth/web3auth-wagmi-connector";
 import { Web3AuthCore } from "@web3auth/core";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
-import { CHAIN_NAMESPACES } from "@web3auth/base";
+import { CHAIN_NAMESPACES, WALLET_ADAPTERS } from "@web3auth/base";
 
 const name = "Login with Auth0";
 const iconUrl = "https://avatars.githubusercontent.com/u/2824157?s=280&v=4";
@@ -44,7 +44,23 @@ const Web3AuthConnectorComp = async ({ chains }) => {
     },
   });
   web3AuthInstance.configureAdapter(openloginAdapter);
-  await web3AuthInstance.initModal();
+
+  await web3AuthInstance.initModal({
+    modalConfig: {
+      [WALLET_ADAPTERS.OPENLOGIN]: {
+        label: "openlogin",
+        loginMethods: {
+          google: {
+            name: "google login",
+            logoDark: "url to your custom logo which will shown in dark mode",
+          },
+        },
+        // setting it to false will hide all social login methods from modal.
+        showOnModal: true,
+      },
+    },
+  });
+
   await web3AuthInstance.connect();
   return {
     id: "web3auth",
