@@ -46,7 +46,7 @@ const GoogleLoginComp = ({ setToken }) => {
             email: cred.email,
             password: "",
             role: "1",
-            googleLogin: 1,
+            googleLogin: "1",
           };
           cred?.email && logInGoogle(loginData);
         }}

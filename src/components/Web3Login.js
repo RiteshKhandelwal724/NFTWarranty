@@ -133,7 +133,7 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { createClient, WagmiConfig, configureChains } from "wagmi";
 // import { rainbowWeb3AuthConnector } from "./RainbowWeb3authConnector";
-import rainbowWeb3AuthConnector from "./web3Auth";
+import Web3AuthConnectorComp from "./web3Auth";
 import { mainnet, polygon } from "wagmi/chains";
 import {
   walletConnectWallet,
@@ -156,10 +156,10 @@ const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      rainbowWallet({ chains }),
-      walletConnectWallet({ chains }),
-      metaMaskWallet({ chains }),
-      rainbowWeb3AuthConnector({ chains }),
+      // rainbowWallet({ chains }),
+      // walletConnectWallet({ chains }),
+      // metaMaskWallet({ chains }),
+      Web3AuthConnectorComp({ chains }),
     ],
   },
 ]);
