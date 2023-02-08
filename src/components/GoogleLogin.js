@@ -45,8 +45,7 @@ const GoogleLoginComp = ({ setToken }) => {
           const loginData = {
             email: cred.email,
             password: "",
-            firstName: cred.given_name,
-            lastName: cred.family_name,
+            role: "1",
             googleLogin: 1,
           };
           cred?.email && logInGoogle(loginData);
