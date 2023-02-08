@@ -10,7 +10,7 @@ const Web3AuthConnectorComp = ({ chains }) => {
   // Create Web3Auth Instance
   const web3AuthInstance = new Web3AuthCore({
     clientId:
-      "BE-2PFnrc3ljP5MfNBuIDlwcxNAq5ceFX7UEF7Q_V7LWB4TeUHokYglrrkfVjJpPYRk5EfOsCinTUXC6StBd0Ro",
+      "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc",
     chainConfig: {
       chainNamespace: CHAIN_NAMESPACES.EIP155,
       chainId: "0x" + chains[0].id.toString(16),
