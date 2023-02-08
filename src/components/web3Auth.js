@@ -44,6 +44,9 @@ const Web3AuthConnectorComp = ({ chains }) => {
     },
   });
   web3AuthInstance.configureAdapter(openloginAdapter);
+  const xxx = async () => {
+    await web3AuthInstance.initModal();
+  };
 
   return {
     id: "web3auth",
@@ -55,6 +58,7 @@ const Web3AuthConnectorComp = ({ chains }) => {
         chains: chains,
         options: {
           web3AuthInstance,
+          xxx,
           loginParams: {
             relogin: true,
             loginProvider: "jwt",
