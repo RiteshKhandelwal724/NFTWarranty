@@ -6,7 +6,7 @@ import { CHAIN_NAMESPACES } from "@web3auth/base";
 const name = "Login with Auth0";
 const iconUrl = "https://avatars.githubusercontent.com/u/2824157?s=280&v=4";
 
-const Web3AuthConnectorComp = ({ chains }) => {
+const Web3AuthConnectorComp = async ({ chains }) => {
   // Create Web3Auth Instance
   const web3AuthInstance = new Web3AuthCore({
     clientId:
@@ -44,10 +44,8 @@ const Web3AuthConnectorComp = ({ chains }) => {
     },
   });
   web3AuthInstance.configureAdapter(openloginAdapter);
-  const xxx = async () => {
-    await web3AuthInstance.initModal();
-  };
-
+  await web3AuthInstance.initModal();
+  await web3AuthInstance.connect();
   return {
     id: "web3auth",
     name,
@@ -58,7 +56,6 @@ const Web3AuthConnectorComp = ({ chains }) => {
         chains: chains,
         options: {
           web3AuthInstance,
-          xxx,
           loginParams: {
             relogin: true,
             loginProvider: "jwt",
