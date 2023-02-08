@@ -8,6 +8,7 @@ import loginImage from "../resources/loginScreen.png";
 import { useToken } from "../functions/TokenUtility";
 import { getData } from "../functions/apiClient";
 import { verifyUser } from "../endpoints";
+import GoogleLoginComp from "./GoogleLogin";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -81,6 +82,12 @@ export default function Login() {
 
           <Grid sx={{ padding: "0 20px" }}>
             <LoginForm setToken={setToken} />
+          </Grid>
+          <Grid sx={{ color: "white", margin: "auto", padding: "10px 0" }}>
+            Or
+          </Grid>
+          <Grid>
+            <GoogleLoginComp />
           </Grid>
 
           {!smUp && (

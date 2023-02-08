@@ -1,8 +1,15 @@
+import { Grid } from "@mui/material";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 const GoogleLoginComp = () => {
   return (
-    <div>
+    <Grid
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <GoogleLogin
         onSuccess={(credentialResponse) => {
           console.log(
@@ -14,7 +21,7 @@ const GoogleLoginComp = () => {
           console.log("Login Failed");
         }}
       />
-    </div>
+    </Grid>
   );
 };
 export default GoogleLoginComp;
