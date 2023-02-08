@@ -81,7 +81,7 @@ const Web3AuthConnectorComp = ({ chains }) => {
           web3AuthInstance,
           loginParams: {
             relogin: true,
-            loginProvider: "jwt",
+            loginProvider: "google",
             extraLoginOptions: {
               domain: "http://localhost:3000/",
               verifierIdField: "sub",
