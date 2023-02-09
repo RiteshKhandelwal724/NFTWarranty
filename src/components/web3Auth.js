@@ -1,16 +1,10 @@
 import { Web3AuthConnector } from "@web3auth/web3auth-wagmi-connector";
-// import { Web3AuthCore } from "@web3auth/core";
+import { Web3AuthCore } from "@web3auth/core";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
-import { CHAIN_NAMESPACES, WALLET_ADAPTERS } from "@web3auth/base";
-import { Web3Auth } from "@web3auth/modal";
-import { useAtom } from "jotai";
-import { web3AuthState } from "../store";
+import { CHAIN_NAMESPACES } from "@web3auth/base";
 
 const name = "Login with Auth0";
 const iconUrl = "https://avatars.githubusercontent.com/u/2824157?s=280&v=4";
-
-let web3AuthInstance;
-
 // modalConfig: {
 //   [WALLET_ADAPTERS.OPENLOGIN]: {
 //     label: "openlogin",
@@ -26,27 +20,21 @@ let web3AuthInstance;
 // },
 
 const Web3AuthConnectorComp = ({ chains }) => {
-  const init = async () => {
-    web3AuthInstance = new Web3Auth({
-      clientId:
-        "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc",
-      chainConfig: {
-        chainNamespace: CHAIN_NAMESPACES.EIP155,
-        chainId: "0x" + chains[0].id.toString(16),
-        rpcTarget: chains[0].rpcUrls.default.http[0], // This is the public RPC we have added, please pass on your own endpoint while creating an app
-        displayName: chains[0].name,
-        tickerName: chains[0].nativeCurrency?.name,
-        ticker: chains[0].nativeCurrency?.symbol,
-        blockExplorer: chains[0]?.blockExplorers.default?.url,
-      },
-    });
-    await web3AuthInstance.initModal();
-  };
+  const web3AuthInstance = new Web3AuthCore({
+    clientId:
+      "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc",
+    chainConfig: {
+      chainNamespace: CHAIN_NAMESPACES.EIP155,
+      chainId: "0x" + chains[0].id.toString(16),
+      rpcTarget: chains[0].rpcUrls.default.http[0], // This is the public RPC we have added, please pass on your own endpoint while creating an app
+      displayName: chains[0].name,
+      tickerName: chains[0].nativeCurrency?.name,
+      ticker: chains[0].nativeCurrency?.symbol,
+      blockExplorer: chains[0]?.blockExplorers.default?.url,
+    },
+  });
 
   // Create Web3Auth Instance
-
-  init();
-
   // Add openlogin adapter for customisations
   const openloginAdapter = new OpenloginAdapter({
     adapterSettings: {
@@ -84,7 +72,7 @@ const Web3AuthConnectorComp = ({ chains }) => {
             relogin: true,
             loginProvider: "google",
             extraLoginOptions: {
-              domain: "http://localhost:3000/",
+              domain: "https://warrantynft.netlify.app",
               verifierIdField: "sub",
             },
           },
