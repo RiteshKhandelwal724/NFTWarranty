@@ -3,47 +3,51 @@ import { Web3AuthConnector } from "@web3auth/web3auth-wagmi-connector";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { CHAIN_NAMESPACES, WALLET_ADAPTERS } from "@web3auth/base";
 import { Web3Auth } from "@web3auth/modal";
+import { useAtom } from "jotai";
+import { web3AuthState } from "../store";
 
 const name = "Login with Auth0";
 const iconUrl = "https://avatars.githubusercontent.com/u/2824157?s=280&v=4";
 
 let web3AuthInstance;
 
-const openLoginModal = async () => {
-  await web3AuthInstance.initModal({
-    // modalConfig: {
-    //   [WALLET_ADAPTERS.OPENLOGIN]: {
-    //     label: "openlogin",
-    //     loginMethods: {
-    //       google: {
-    //         name: "google login",
-    //         logoDark: "url to your custom logo which will shown in dark mode",
-    //       },
-    //     },
-    //     // setting it to false will hide all social login methods from modal.
-    //     showOnModal: true,
-    //   },
-    // },
-  });
-
-  await web3AuthInstance.connect();
-};
+// modalConfig: {
+//   [WALLET_ADAPTERS.OPENLOGIN]: {
+//     label: "openlogin",
+//     loginMethods: {
+//       google: {
+//         name: "google login",
+//         logoDark: "url to your custom logo which will shown in dark mode",
+//       },
+//     },
+//     // setting it to false will hide all social login methods from modal.
+//     showOnModal: true,
+//   },
+// },
 
 const Web3AuthConnectorComp = ({ chains }) => {
+  const [web3Auth, setWeb3Auth] = useAtom(web3AuthState);
+  const init = async () => {
+    web3AuthInstance = new Web3Auth({
+      clientId:
+        "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc",
+      chainConfig: {
+        chainNamespace: CHAIN_NAMESPACES.EIP155,
+        chainId: "0x" + chains[0].id.toString(16),
+        rpcTarget: chains[0].rpcUrls.default.http[0], // This is the public RPC we have added, please pass on your own endpoint while creating an app
+        displayName: chains[0].name,
+        tickerName: chains[0].nativeCurrency?.name,
+        ticker: chains[0].nativeCurrency?.symbol,
+        blockExplorer: chains[0]?.blockExplorers.default?.url,
+      },
+    });
+    setWeb3Auth(web3AuthInstance);
+    await web3AuthInstance.initModal();
+  };
+
   // Create Web3Auth Instance
-  web3AuthInstance = new Web3Auth({
-    clientId:
-      "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc",
-    chainConfig: {
-      chainNamespace: CHAIN_NAMESPACES.EIP155,
-      chainId: "0x" + chains[0].id.toString(16),
-      rpcTarget: chains[0].rpcUrls.default.http[0], // This is the public RPC we have added, please pass on your own endpoint while creating an app
-      displayName: chains[0].name,
-      tickerName: chains[0].nativeCurrency?.name,
-      ticker: chains[0].nativeCurrency?.symbol,
-      blockExplorer: chains[0]?.blockExplorers.default?.url,
-    },
-  });
+
+  init();
 
   // Add openlogin adapter for customisations
   const openloginAdapter = new OpenloginAdapter({
@@ -67,8 +71,6 @@ const Web3AuthConnectorComp = ({ chains }) => {
     },
   });
   web3AuthInstance.configureAdapter(openloginAdapter);
-  openLoginModal();
-
   // await web3AuthInstance.connect();
   return {
     id: "web3auth",
