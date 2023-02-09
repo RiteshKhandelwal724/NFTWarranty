@@ -11,19 +11,19 @@ let web3AuthInstance;
 
 const openLoginModal = async () => {
   await web3AuthInstance.initModal({
-    modalConfig: {
-      [WALLET_ADAPTERS.OPENLOGIN]: {
-        label: "openlogin",
-        loginMethods: {
-          google: {
-            name: "google login",
-            logoDark: "url to your custom logo which will shown in dark mode",
-          },
-        },
-        // setting it to false will hide all social login methods from modal.
-        showOnModal: true,
-      },
-    },
+    // modalConfig: {
+    //   [WALLET_ADAPTERS.OPENLOGIN]: {
+    //     label: "openlogin",
+    //     loginMethods: {
+    //       google: {
+    //         name: "google login",
+    //         logoDark: "url to your custom logo which will shown in dark mode",
+    //       },
+    //     },
+    //     // setting it to false will hide all social login methods from modal.
+    //     showOnModal: true,
+    //   },
+    // },
   });
 
   await web3AuthInstance.connect();
