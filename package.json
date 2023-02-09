@@ -20,6 +20,7 @@
     "@toruslabs/eccrypto": "^1.1.8",
     "@truffle/contract": "^4.4.1",
     "@web3auth/core": "^4.3.0",
+    "@web3auth/modal": "^4.5.0",
     "@web3auth/openlogin-adapter": "^4.3.0",
     "@web3auth/web3auth-wagmi-connector": "^2.1.1",
     "autoprefixer": "^10.4.13",
