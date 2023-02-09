@@ -1,7 +1,8 @@
 import { Web3AuthConnector } from "@web3auth/web3auth-wagmi-connector";
-import { Web3AuthCore } from "@web3auth/core";
+// import { Web3AuthCore } from "@web3auth/core";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { CHAIN_NAMESPACES, WALLET_ADAPTERS } from "@web3auth/base";
+import { Web3Auth } from "@web3auth/modal";
 
 const name = "Login with Auth0";
 const iconUrl = "https://avatars.githubusercontent.com/u/2824157?s=280&v=4";
@@ -30,7 +31,7 @@ const openLoginModal = async () => {
 
 const Web3AuthConnectorComp = ({ chains }) => {
   // Create Web3Auth Instance
-  web3AuthInstance = new Web3AuthCore({
+  web3AuthInstance = new Web3Auth({
     clientId:
       "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc",
     chainConfig: {
