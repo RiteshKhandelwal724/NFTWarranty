@@ -1,5 +1,6 @@
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { Web3Auth } from "@web3auth/modal";
 import { styled } from "@mui/material/styles";
 import { Link, Container, Typography, Grid } from "@mui/material";
 import useResponsive from "../hooks/useResponsive";
@@ -9,6 +10,8 @@ import { useToken } from "../functions/TokenUtility";
 import { getData } from "../functions/apiClient";
 import { verifyUser } from "../endpoints";
 import GoogleLoginComp from "./GoogleLogin";
+import { useAtom } from "jotai";
+import { web3AuthState } from "../store";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -32,7 +35,7 @@ export default function Login() {
   const [token, setToken] = useToken();
   const [currentStep, setCurrentStep] = useState("0");
   const [role, setRole] = useState("0");
-
+  const [web3Auth, setWeb3Auth] = useAtom(web3AuthState);
   const smUp = useResponsive("up", "sm");
   useEffect(() => {
     const getVerification = async () => {
@@ -44,7 +47,20 @@ export default function Login() {
         setCurrentStep("2");
       }
     };
+    const init = async () => {
+      const web3auth = new Web3Auth({
+        clientId:
+          "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc", // Get your Client ID from Web3Auth Dashboard
+        chainConfig: {
+          chainNamespace: "eip155",
+          chainId: "0x1",
+        },
+      });
+      setWeb3Auth(web3Auth);
+      await web3auth.initModal();
+    };
     getVerification();
+    init();
   }, []);
 
   return (

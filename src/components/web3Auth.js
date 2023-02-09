@@ -26,7 +26,6 @@ let web3AuthInstance;
 // },
 
 const Web3AuthConnectorComp = ({ chains }) => {
-  const [web3Auth, setWeb3Auth] = useAtom(web3AuthState);
   const init = async () => {
     web3AuthInstance = new Web3Auth({
       clientId:
@@ -41,7 +40,6 @@ const Web3AuthConnectorComp = ({ chains }) => {
         blockExplorer: chains[0]?.blockExplorers.default?.url,
       },
     });
-    setWeb3Auth(web3AuthInstance);
     await web3AuthInstance.initModal();
   };
 
