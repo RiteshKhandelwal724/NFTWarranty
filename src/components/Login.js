@@ -12,6 +12,49 @@ import { verifyUser } from "../endpoints";
 import GoogleLoginComp from "./GoogleLogin";
 import { useAtom } from "jotai";
 import { web3AuthState } from "../store";
+import {
+  ConnectButton,
+  connectorsForWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
+import { createClient, WagmiConfig, configureChains, useAccount } from "wagmi";
+// import { rainbowWeb3AuthConnector } from "./RainbowWeb3authConnector";
+import Web3AuthConnectorComp from "./web3Auth";
+import { mainnet, polygon } from "wagmi/chains";
+import {
+  walletConnectWallet,
+  rainbowWallet,
+  metaMaskWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import "@rainbow-me/rainbowkit/styles.css";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
+
+const { chains, provider } = configureChains(
+  [mainnet, polygon],
+  [
+    alchemyProvider({ apiKey: "qYiJwyA_sOdvrcKcbfqVK_QCaP1NuYCi" }),
+    // alchemyProvider({ apiKey: "fGXusgBUDC-OPy6XI8IFRvu1i7sbWsYj" }),
+    publicProvider(),
+  ]
+);
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [
+      rainbowWallet({ chains }),
+      walletConnectWallet({ chains }),
+      metaMaskWallet({ chains }),
+      Web3AuthConnectorComp({ chains }),
+    ],
+  },
+]);
+
+const wagmiClient = createClient({
+  autoConnect: false,
+  connectors,
+  provider,
+});
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -37,6 +80,9 @@ export default function Login() {
   const [role, setRole] = useState("0");
   const [web3Auth, setWeb3Auth] = useAtom(web3AuthState);
   const smUp = useResponsive("up", "sm");
+  const { address, isConnected } = useAccount();
+  console.log("address", address);
+  console.log("isConnected", isConnected);
   useEffect(() => {
     const getVerification = async () => {
       const res = await getData(verifyUser(token));
@@ -104,6 +150,23 @@ export default function Login() {
           </Grid>
           <Grid>
             <GoogleLoginComp setToken={setToken} />
+          </Grid>
+          <Grid>
+            <WagmiConfig client={wagmiClient}>
+              <RainbowKitProvider chains={chains}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "sans-serif",
+                    paddingTop: "20px",
+                  }}
+                >
+                  <ConnectButton />
+                </div>
+              </RainbowKitProvider>
+            </WagmiConfig>
           </Grid>
 
           {!smUp && (

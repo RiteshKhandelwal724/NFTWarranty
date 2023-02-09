@@ -3,7 +3,7 @@ import {
   connectorsForWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { createClient, WagmiConfig, configureChains } from "wagmi";
+import { createClient, WagmiConfig, configureChains, useAccount } from "wagmi";
 // import { rainbowWeb3AuthConnector } from "./RainbowWeb3authConnector";
 import Web3AuthConnectorComp from "./web3Auth";
 import { mainnet, polygon } from "wagmi/chains";
@@ -35,6 +35,7 @@ const connectors = connectorsForWallets([
     ],
   },
 ]);
+
 const wagmiClient = createClient({
   autoConnect: false,
   connectors,
@@ -42,6 +43,9 @@ const wagmiClient = createClient({
 });
 
 export default function Login() {
+  const { address, isConnected } = useAccount();
+  console.log("address", address);
+  console.log("isConnected", isConnected);
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>

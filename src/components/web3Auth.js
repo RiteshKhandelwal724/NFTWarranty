@@ -70,7 +70,7 @@ const Web3AuthConnectorComp = ({ chains }) => {
           web3AuthInstance,
           loginParams: {
             relogin: true,
-            loginProvider: "google",
+            loginProvider: "jwt",
             extraLoginOptions: {
               domain: "https://warrantynft.netlify.app",
               verifierIdField: "sub",

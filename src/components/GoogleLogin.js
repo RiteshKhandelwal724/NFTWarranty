@@ -6,7 +6,9 @@ import { postData } from "../functions/apiClient";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { web3AuthState } from "../store";
-const GoogleLoginComp = ({ setToken }) => {
+import { useToken } from "../functions/TokenUtility";
+const GoogleLoginComp = () => {
+  const [token, setToken] = useToken();
   const [web3Auth] = useAtom(web3AuthState);
   const Navigate = useNavigate();
   const logInGoogle = async (values) => {
