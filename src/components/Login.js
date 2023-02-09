@@ -59,8 +59,8 @@ export default function Login() {
       setWeb3Auth(web3Auth);
       await web3auth.initModal();
     };
-    getVerification();
     init();
+    getVerification();
   }, []);
 
   return (
