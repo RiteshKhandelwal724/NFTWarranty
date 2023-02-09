@@ -33,6 +33,7 @@ import { useNavigate } from "react-router-dom";
 import { useToken } from "../functions/TokenUtility";
 import { useAtom } from "jotai";
 import { profileState } from "../store";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 const StyledSearch = styled("div")(({ theme }) => ({
   position: "relative",
@@ -77,6 +78,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 //search as JSX
 
 export default function MainNavigation() {
+  const { disconnect } = useDisconnect();
+
   const search = (
     <StyledSearch>
       <SearchIconWrapper>
@@ -115,6 +118,7 @@ export default function MainNavigation() {
   const logOut = async () => {
     const res = await getRequestLoggedIn(logout);
     if (res?.status_code === "200") {
+      disconnect();
       setToken(0);
       Navigate("/");
     }
