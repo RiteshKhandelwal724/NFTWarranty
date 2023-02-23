@@ -32,7 +32,12 @@ import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useToken } from "../functions/TokenUtility";
 import { useAtom } from "jotai";
-import { profileState, providerState, web3AuthState } from "../store";
+import {
+  fromGoogleState,
+  profileState,
+  providerState,
+  web3AuthState,
+} from "../store";
 
 const StyledSearch = styled("div")(({ theme }) => ({
   position: "relative",
@@ -81,6 +86,7 @@ const clientId =
 export default function MainNavigation() {
   const [web3auth] = useAtom(web3AuthState);
   const [providers, setProvider] = useAtom(providerState);
+  const [fromGoogle] = useAtom(fromGoogleState);
 
   const search = (
     <StyledSearch>
@@ -126,7 +132,7 @@ export default function MainNavigation() {
     setState(open);
   };
   const logOut = async () => {
-    await logoutAuth();
+    if (fromGoogle) await logoutAuth();
     const res = await getRequestLoggedIn(logout);
     if (res?.status_code === "200") {
       setToken(0);
@@ -231,8 +237,10 @@ export default function MainNavigation() {
             >
               {/* when clicking the icon it calls the function toggleDrawer and closes the drawer by setting the variable open to false */}
               <IconButton sx={{ mb: 2 }}>
-                onClick={() => toggleDrawer(false)}
-                <CloseIcon sx={{ color: "white" }} />
+                <CloseIcon
+                  sx={{ color: "white" }}
+                  onClick={() => toggleDrawer(false)}
+                />
               </IconButton>
 
               <Divider sx={{ mb: 2 }} />

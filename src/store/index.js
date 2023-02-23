@@ -15,3 +15,4 @@ export const registeredProductResponse = atom({});
 export const web3AuthState = atom(null);
 export const providerState = atom(null);
 export const privateKeyState = atom("");
+export const fromGoogleState = atom(false);

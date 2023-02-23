@@ -22,7 +22,7 @@ const ProductDescription = () => {
   const productIdParam = params.get("productId");
   const [productDetails, setProductDetails] = useAtom(prodData);
   const [productImages, setProductImages] = useAtom(prodImages);
-  const [verifyWarranty] = useAtom(verifyWarrantyState);
+  const [verifyWarranty, setVerifyWarranty] = useAtom(verifyWarrantyState);
   const Navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -62,8 +62,8 @@ const ProductDescription = () => {
     if (dataResponse?.statusCode === "200") {
       setProductDetails(dataResponse?.productDetails);
       setProductImages(dataResponse?.productImages);
+      setVerifyWarranty(dataResponse?.productDetails?.activateWarrantyFlag);
     }
-    setParams("");
   };
   useEffect(() => {
     params && fetchProdDetails();

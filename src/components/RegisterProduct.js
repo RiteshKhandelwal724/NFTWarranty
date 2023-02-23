@@ -45,12 +45,13 @@ const LoginForm = () => {
         const dataResponse = await getRequestLoggedIn(
           productDetailsEp(values.productNumber)
         );
-
         try {
           if (dataResponse?.statusCode === "200") {
             setProduct(dataResponse.productDetails);
             setProductImages(dataResponse.productImages);
-            Navigate("/ProductDescription");
+            Navigate(
+              `/ProductDescription?productId=${dataResponse?.productDetails?.productSerialNumber}`
+            );
           } else {
             setOpen(true);
           }

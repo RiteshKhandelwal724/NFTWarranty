@@ -13,7 +13,12 @@ import { WALLET_ADAPTERS, CHAIN_NAMESPACES } from "@web3auth/base";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { login } from "../../src/endpoints";
 import { useAtom } from "jotai";
-import { privateKeyState, providerState, web3AuthState } from "../store";
+import {
+  fromGoogleState,
+  privateKeyState,
+  providerState,
+  web3AuthState,
+} from "../store";
 import "./web3Login.css";
 import Web3AuthComp from "./web3Auth";
 // import RPC from './ethersRPC' // for using ethers.js
@@ -37,6 +42,8 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function LoginComp() {
   const [privateKey, setPrivateKey] = useAtom(privateKeyState);
+  const [fromGoogle, setFromGoogle] = useAtom(fromGoogleState);
+
   const clientId =
     "BEglQSgt4cUWcj6SKRdu5QkOXTsePmMcusG5EAoyjyOYKlVRjIF1iCNnMOTfpzCiunHRrMui8TIwQPXdkQ8Yxuk"; // get from https://dashboard.web3auth.io
   const Navigate = useNavigate();
@@ -61,6 +68,7 @@ export default function LoginComp() {
       const res = await postData(login, values);
       if (res?.statusCode === "200") {
         setToken(res?.data?.userToken);
+        setFromGoogle(true);
         if (res?.data?.userRole === "2") {
           if (
             sessionStorage
