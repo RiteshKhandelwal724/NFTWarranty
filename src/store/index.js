@@ -12,4 +12,6 @@ export const prodImages = atom([]);
 export const profileState = atom({});
 export const verifyWarrantyState = atom("");
 export const registeredProductResponse = atom({});
-export const web3AuthState = atom({});
+export const web3AuthState = atom(null);
+export const providerState = atom(null);
+export const privateKeyState = atom("");

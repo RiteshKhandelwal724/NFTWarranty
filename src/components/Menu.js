@@ -32,8 +32,7 @@ import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useToken } from "../functions/TokenUtility";
 import { useAtom } from "jotai";
-import { profileState } from "../store";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { profileState, providerState, web3AuthState } from "../store";
 
 const StyledSearch = styled("div")(({ theme }) => ({
   position: "relative",
@@ -74,11 +73,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+const clientId =
+  "BEglQSgt4cUWcj6SKRdu5QkOXTsePmMcusG5EAoyjyOYKlVRjIF1iCNnMOTfpzCiunHRrMui8TIwQPXdkQ8Yxuk"; // get from https://dashboard.web3auth.io
 
 //search as JSX
 
 export default function MainNavigation() {
-  const { disconnect } = useDisconnect();
+  const [web3auth] = useAtom(web3AuthState);
+  const [providers, setProvider] = useAtom(providerState);
 
   const search = (
     <StyledSearch>
@@ -96,6 +98,14 @@ export default function MainNavigation() {
       />
     </StyledSearch>
   );
+  const logoutAuth = async () => {
+    if (!web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    await web3auth.logout();
+    setProvider(null);
+  };
 
   const Navigate = useNavigate();
   const [token, setToken] = useToken();
@@ -116,9 +126,9 @@ export default function MainNavigation() {
     setState(open);
   };
   const logOut = async () => {
+    await logoutAuth();
     const res = await getRequestLoggedIn(logout);
     if (res?.status_code === "200") {
-      disconnect();
       setToken(0);
       Navigate("/");
     }
@@ -210,7 +220,7 @@ export default function MainNavigation() {
             //function that is called when the drawer should close
             onClose={() => toggleDrawer(false)}
             //function that is called when the drawer should open
-            onOpen={() => toggleDrawer(true)}
+            // onOpen={() => toggleDrawer(true)}
           >
             {/* The inside of the drawer */}
             <Box
@@ -221,10 +231,8 @@ export default function MainNavigation() {
             >
               {/* when clicking the icon it calls the function toggleDrawer and closes the drawer by setting the variable open to false */}
               <IconButton sx={{ mb: 2 }}>
-                <CloseIcon
-                  sx={{ color: "white" }}
-                  onClick={() => toggleDrawer(false)}
-                />
+                onClick={() => toggleDrawer(false)}
+                <CloseIcon sx={{ color: "white" }} />
               </IconButton>
 
               <Divider sx={{ mb: 2 }} />
@@ -242,13 +250,22 @@ export default function MainNavigation() {
                     borderRadius: "0 20px 0 0",
                   }}
                 >
-                  <Typography
-                    color="white"
-                    sx={{ fontWeight: "bold", padding: "30px" }}
-                  >
-                    Ritesh Khandelwal
-                    <div>{profile.roleType}</div>
-                  </Typography>
+                  <Grid>
+                    <Typography
+                      color="white"
+                      sx={{ fontWeight: "bold", padding: "30px 30px 0" }}
+                    >
+                      Ritesh Khandelwal
+                    </Typography>
+                  </Grid>
+                  <Grid>
+                    <Typography
+                      color="white"
+                      sx={{ fontWeight: "bold", padding: "0 30px 30px" }}
+                    >
+                      {profile.roleType}
+                    </Typography>
+                  </Grid>
                 </Grid>
                 <Grid sx={{ mb: 2, mt: 5 }} item>
                   <ListItemButton

@@ -1,60 +1,22 @@
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { Web3Auth } from "@web3auth/modal";
 import { styled } from "@mui/material/styles";
-import { Link, Container, Typography, Grid } from "@mui/material";
+import { Link, Container, Typography, Grid, Button } from "@mui/material";
 import useResponsive from "../hooks/useResponsive";
 import LoginForm from "./LoginForm";
 import loginImage from "../resources/loginScreen.png";
 import { useToken } from "../functions/TokenUtility";
-import { getData } from "../functions/apiClient";
+import { getData, postData } from "../functions/apiClient";
 import { verifyUser } from "../endpoints";
-import GoogleLoginComp from "./GoogleLogin";
+import { Web3AuthCore } from "@web3auth/core";
+import { WALLET_ADAPTERS, CHAIN_NAMESPACES } from "@web3auth/base";
+import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
+import { login } from "../../src/endpoints";
 import { useAtom } from "jotai";
-import { web3AuthState } from "../store";
-import {
-  ConnectButton,
-  connectorsForWallets,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
-import { createClient, WagmiConfig, configureChains, useAccount } from "wagmi";
-// import { rainbowWeb3AuthConnector } from "./RainbowWeb3authConnector";
-import Web3AuthConnectorComp from "./web3Auth";
-import { mainnet, polygon } from "wagmi/chains";
-import {
-  walletConnectWallet,
-  rainbowWallet,
-  metaMaskWallet,
-} from "@rainbow-me/rainbowkit/wallets";
-import "@rainbow-me/rainbowkit/styles.css";
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { publicProvider } from "wagmi/providers/public";
-
-const { chains, provider } = configureChains(
-  [mainnet, polygon],
-  [
-    alchemyProvider({ apiKey: "qYiJwyA_sOdvrcKcbfqVK_QCaP1NuYCi" }),
-    // alchemyProvider({ apiKey: "fGXusgBUDC-OPy6XI8IFRvu1i7sbWsYj" }),
-    publicProvider(),
-  ]
-);
-const connectors = connectorsForWallets([
-  {
-    groupName: "Recommended",
-    wallets: [
-      rainbowWallet({ chains }),
-      walletConnectWallet({ chains }),
-      metaMaskWallet({ chains }),
-      Web3AuthConnectorComp({ chains }),
-    ],
-  },
-]);
-
-const wagmiClient = createClient({
-  autoConnect: false,
-  connectors,
-  provider,
-});
+import { privateKeyState, providerState, web3AuthState } from "../store";
+import "./web3Login.css";
+import Web3AuthComp from "./web3Auth";
+// import RPC from './ethersRPC' // for using ethers.js
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -73,42 +35,110 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function LoginComp() {
+  const [privateKey, setPrivateKey] = useAtom(privateKeyState);
+  const clientId =
+    "BEglQSgt4cUWcj6SKRdu5QkOXTsePmMcusG5EAoyjyOYKlVRjIF1iCNnMOTfpzCiunHRrMui8TIwQPXdkQ8Yxuk"; // get from https://dashboard.web3auth.io
   const Navigate = useNavigate();
   const [token, setToken] = useToken();
   const [currentStep, setCurrentStep] = useState("0");
   const [role, setRole] = useState("0");
-  const [web3Auth, setWeb3Auth] = useAtom(web3AuthState);
   const smUp = useResponsive("up", "sm");
-  const { address, isConnected } = useAccount();
-  console.log("address", address);
-  console.log("isConnected", isConnected);
-  useEffect(() => {
-    const getVerification = async () => {
-      const res = await getData(verifyUser(token));
-      if (res.status_code === "200") {
-        setRole(res?.data?.userRole);
-        setCurrentStep("1");
-      } else {
-        setCurrentStep("2");
+  const [web3auth, setWeb3auth] = useAtom(web3AuthState);
+  const [provider, setProvider] = useAtom(providerState);
+  const getVerification = async () => {
+    const res = await getData(verifyUser(token));
+    if (res.status_code === "200") {
+      setRole(res?.data?.userRole);
+      setCurrentStep("1");
+    } else {
+      setCurrentStep("2");
+    }
+  };
+
+  const logInGoogle = async (values) => {
+    try {
+      const res = await postData(login, values);
+      if (res?.statusCode === "200") {
+        setToken(res?.data?.userToken);
+        if (res?.data?.userRole === "2") {
+          if (
+            sessionStorage
+              .getItem("previousPath")
+              .startsWith("/ProductDescription")
+          ) {
+            Navigate(sessionStorage.getItem("previousPath"));
+          } else Navigate("/RegisterProduct");
+        } else Navigate("/Dashboard");
+      } else if (res.statusCode === "400") {
+        console.log("error");
       }
-    };
-    const init = async () => {
-      const web3auth = new Web3Auth({
-        clientId:
-          "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc", // Get your Client ID from Web3Auth Dashboard
+    } catch (e) {
+      alert("something went wrong");
+    }
+  };
+  const init = async () => {
+    try {
+      const web3auth = new Web3AuthCore({
+        clientId,
         chainConfig: {
-          chainNamespace: "eip155",
-          chainId: "0x1",
+          chainNamespace: CHAIN_NAMESPACES.EIP155,
+          chainId: "0x5",
+        },
+        web3AuthNetwork: "cyan",
+      });
+
+      const openloginAdapter = new OpenloginAdapter({
+        adapterSettings: {
+          loginConfig: {
+            google: {
+              verifier: "web3auth-google-example",
+              typeOfLogin: "google",
+              clientId:
+                "774338308167-q463s7kpvja16l4l0kko3nb925ikds2p.apps.googleusercontent.com", //use your app client id you got from google
+            },
+          },
         },
       });
-      setWeb3Auth(web3Auth);
-      await web3auth.initModal();
-    };
-    init();
-    getVerification();
-  }, []);
+      web3auth.configureAdapter(openloginAdapter);
+      setWeb3auth(web3auth);
 
+      await web3auth.init();
+      if (web3auth.provider) {
+        setProvider(web3auth.provider);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getVerification();
+    init();
+  }, []);
+  const loginFun = async () => {
+    if (!web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    const web3authProvider = await web3auth.connectTo(
+      WALLET_ADAPTERS.OPENLOGIN,
+      {
+        loginProvider: "google",
+      }
+    );
+    setProvider(web3authProvider);
+    const rpc = new Web3AuthComp(web3authProvider);
+    const address = await rpc.getPrivateKey();
+    setPrivateKey(address);
+    const user = await web3auth.getUserInfo();
+    const userData = {
+      email: user?.email,
+      password: "",
+      role: "1",
+      googleLogin: "1",
+    };
+    logInGoogle(userData);
+  };
   return (
     <RootStyle
       sx={{
@@ -148,10 +178,10 @@ export default function Login() {
           <Grid sx={{ color: "white", margin: "auto", padding: "10px 0" }}>
             Or
           </Grid>
-          <Grid>
+          {/* <Grid>
             <GoogleLoginComp setToken={setToken} />
-          </Grid>
-          <Grid>
+          </Grid> */}
+          {/* <Grid>
             <WagmiConfig client={wagmiClient}>
               <RainbowKitProvider chains={chains}>
                 <div
@@ -167,6 +197,23 @@ export default function Login() {
                 </div>
               </RainbowKitProvider>
             </WagmiConfig>
+          </Grid> */}
+          <Grid
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              padding: "0 20px",
+            }}
+          >
+            <Button
+              sx={{ width: "100%", padding: "10px", borderRadius: "25px" }}
+              variant="contained"
+              onClick={loginFun}
+              size="large"
+            >
+              Sign In with Google
+            </Button>
           </Grid>
 
           {!smUp && (

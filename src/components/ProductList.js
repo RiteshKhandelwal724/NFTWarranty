@@ -5,16 +5,16 @@ import {
   AccordionDetails,
   AccordionSummary,
   Grid,
+  Link,
   Typography,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import { dateFormat, getRequestLoggedIn } from "../functions/apiClient";
 import { productList } from "../endpoints";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import image from "../resources/washermachine.jpg";
 import ErrorModal from "./ErrorModal";
 import moment from "moment";
 import CarouselComp from "./CarouselComp";
-import QRCode from "react-qr-code";
 
 const ProductList = () => {
   const [productsArray, setProductsArray] = useState([]);
@@ -28,11 +28,6 @@ const ProductList = () => {
         if (res?.statusCode === "200") {
           setProductsArray(res?.productList);
           setResponse(res);
-          if (res?.productList.length === 0) {
-            setOpen(true);
-          }
-        } else {
-          setOpen(true);
         }
       } catch (error) {
         setOpen(true);
@@ -45,16 +40,46 @@ const ProductList = () => {
     setExpanded(isExpanded ? pane1 : false);
   };
   const today = moment(new Date(), "dd-mm-yyyy");
+  const noProducts = (
+    <Grid
+      container
+      sx={{
+        minHeight: "80vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <Grid item> No Products found</Grid>
+      <Grid item>
+        <Link
+          variant="subtitle2"
+          to="/AddProduct"
+          component={RouterLink}
+          sx={{ fontSize: "30px", textDecoration: "none" }}
+        >
+          Click to Add Product
+        </Link>
+      </Grid>
+    </Grid>
+  );
   return (
     <Grid>
-      <ErrorModal open={open} setOpen={setOpen} errorText={response?.message} />
+      <ErrorModal
+        open={open}
+        setOpen={setOpen}
+        errorText="No Producs found... !!!"
+      />
       <Typography
         variant="h5"
         gutterBottom
         color="black"
         sx={{ fontWeight: "bold", padding: "15px 0 0 15px" }}
       >
-        Here is the List of your Products
+        {productsArray.length > 0
+          ? "Here is the List of your Products"
+          : noProducts}
       </Typography>
       {productsArray.map((productDetails, index) => {
         const expDateRaw = productDetails?.warrantyPeriod;

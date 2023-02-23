@@ -247,18 +247,16 @@ const AddProduct = () => {
                 Add Product Images
               </Typography>
             </Grid>
-            <form>
-              <input
-                type={"file"}
-                id={"productImage"}
-                ref={hiddenFileInput}
-                style={{ display: "none" }}
-                accept="image/png,image/jpg"
-                onChange={(e) => {
-                  changeHandler(e);
-                }}
-              />
-            </form>
+            <input
+              type={"file"}
+              id={"productImage"}
+              ref={hiddenFileInput}
+              style={{ display: "none" }}
+              accept="image/png,image/jpg"
+              onChange={(e) => {
+                changeHandler(e);
+              }}
+            />
           </>
         </Grid>
         <Grid

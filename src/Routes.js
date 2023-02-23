@@ -70,15 +70,6 @@ class Routing extends React.Component {
             </ProtectedRoute>
           }
         />
-        <Route
-          exact
-          path="/LoginAuth"
-          element={
-            <ProtectedRoute>
-              <Web3Login />
-            </ProtectedRoute>
-          }
-        />
 
         <Route
           exact
@@ -138,6 +129,17 @@ class Routing extends React.Component {
             <ProtectedRoute>
               <WarrantySolutions>
                 <Dashboard />
+              </WarrantySolutions>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          exact
+          path="/LoginAuth"
+          element={
+            <ProtectedRoute>
+              <WarrantySolutions>
+                <Web3Login />
               </WarrantySolutions>
             </ProtectedRoute>
           }

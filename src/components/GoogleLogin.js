@@ -4,19 +4,15 @@ import jwt_decode from "jwt-decode";
 import { login } from "../endpoints";
 import { postData } from "../functions/apiClient";
 import { useNavigate } from "react-router-dom";
-import { useAtom } from "jotai";
-import { web3AuthState } from "../store";
 import { useToken } from "../functions/TokenUtility";
 const GoogleLoginComp = () => {
   const [token, setToken] = useToken();
-  const [web3Auth] = useAtom(web3AuthState);
   const Navigate = useNavigate();
   const logInGoogle = async (values) => {
     try {
       const res = await postData(login, values);
       if (res?.statusCode === "200") {
         setToken(res?.data?.userToken);
-        await web3Auth.connect();
         if (res?.data?.userRole === "2") {
           if (
             sessionStorage

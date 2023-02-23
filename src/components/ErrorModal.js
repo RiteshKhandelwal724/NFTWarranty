@@ -34,7 +34,7 @@ const ErrorModal = ({ open, setOpen, errorText }) => {
           </DialogTitle>
 
           <DialogContent id="errror-desc">
-            <DialogContentText
+            <Grid
               style={{
                 margin: "auto",
                 color: "black",
@@ -45,12 +45,12 @@ const ErrorModal = ({ open, setOpen, errorText }) => {
               {errorText ? (
                 errorText
               ) : (
-                <div>
-                  <div>Something went wrong..!! </div>
-                  <div>Please try again in some time.</div>
-                </div>
+                <Grid>
+                  <Grid>Something went wrong..!! </Grid>
+                  <Grid>Please try again in some time.</Grid>
+                </Grid>
               )}
-            </DialogContentText>
+            </Grid>
           </DialogContent>
           <DialogActions
             style={{

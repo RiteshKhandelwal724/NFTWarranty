@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import T1 from "../resources/T1.png";
 import T2 from "../resources/T2.png";
 import T3 from "../resources/T3.png";
 import T4 from "../resources/T4.png";
 import DashAvatarIcon from "../resources/DashAvatarIcon.png";
 import { visuallyHidden } from "@mui/utils";
-import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { NavLink } from "react-router-dom";
 import {
   Button,
@@ -31,7 +29,6 @@ import ThemeProvider from "../Theme/index.js";
 import { dashboardRecords, productList } from "../endpoints";
 import { profileState } from "../store";
 import { useAtom } from "jotai";
-import moment from "moment";
 
 function Dashboard() {
   const [order, setOrder] = useState("asc");
@@ -55,12 +52,6 @@ function Dashboard() {
       const res = await getRequestLoggedIn(productList);
       if (res?.statusCode === "200") {
         let data = res.productList;
-        let newData = data.map((obj) => {
-          if (typeof obj.tokenId === "string") {
-            let temp = toNumber(obj.tokenId);
-            obj.tokenId = temp;
-          }
-        });
 
         setDashboardTableData(data);
       } else {
@@ -175,14 +166,6 @@ function Dashboard() {
       </TableHead>
     );
   }
-
-  EnhancedTableHead.propTypes = {
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-    orderBy: PropTypes.number.isRequired,
-    rowCount: PropTypes.number.isRequired,
-  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -733,7 +716,7 @@ function Dashboard() {
                     >
                       <Grid item>
                         <NavLink
-                          to="/Profile"
+                          to="/LoginAuth"
                           style={{
                             marginLeft: "3vw",
                             marginRight: "3vw",
@@ -745,7 +728,7 @@ function Dashboard() {
                             textTransform: "none",
                           }}
                         >
-                          My Profile
+                          Auth Screen
                         </NavLink>
                       </Grid>
                       <Grid item>
@@ -823,6 +806,7 @@ function Dashboard() {
         </Grid>
         <Grid item sx={{ padding: "10px" }} sm={12}>
           <Grid
+            item
             sx={{
               padding: "10px",
               display: "flex",

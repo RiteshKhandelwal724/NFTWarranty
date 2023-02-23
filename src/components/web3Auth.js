@@ -1,87 +1,107 @@
-import { Web3AuthConnector } from "@web3auth/web3auth-wagmi-connector";
-import { Web3AuthCore } from "@web3auth/core";
-import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
-import { CHAIN_NAMESPACES } from "@web3auth/base";
+import { ethers } from "ethers";
 
-const name = "Login with Auth0";
-const iconUrl = "https://avatars.githubusercontent.com/u/2824157?s=280&v=4";
-// modalConfig: {
-//   [WALLET_ADAPTERS.OPENLOGIN]: {
-//     label: "openlogin",
-//     loginMethods: {
-//       google: {
-//         name: "google login",
-//         logoDark: "url to your custom logo which will shown in dark mode",
-//       },
-//     },
-//     // setting it to false will hide all social login methods from modal.
-//     showOnModal: true,
-//   },
-// },
+export default class EthereumRpc {
+  constructor(provider) {
+    this.provider = provider;
+  }
 
-const Web3AuthConnectorComp = ({ chains }) => {
-  const web3AuthInstance = new Web3AuthCore({
-    clientId:
-      "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc",
-    chainConfig: {
-      chainNamespace: CHAIN_NAMESPACES.EIP155,
-      chainId: "0x" + chains[0].id.toString(16),
-      rpcTarget: chains[0].rpcUrls.default.http[0], // This is the public RPC we have added, please pass on your own endpoint while creating an app
-      displayName: chains[0].name,
-      tickerName: chains[0].nativeCurrency?.name,
-      ticker: chains[0].nativeCurrency?.symbol,
-      blockExplorer: chains[0]?.blockExplorers.default?.url,
-    },
-  });
+  async getChainId() {
+    try {
+      const ethersProvider = new ethers.providers.Web3Provider(this.provider);
+      // Get the connected Chain's ID
+      const networkDetails = await ethersProvider.getNetwork();
+      return networkDetails.chainId;
+    } catch (error) {
+      return error;
+    }
+  }
 
-  // Create Web3Auth Instance
-  // Add openlogin adapter for customisations
-  const openloginAdapter = new OpenloginAdapter({
-    adapterSettings: {
-      network: "cyan",
-      uxMode: "popup",
-      loginConfig: {
-        jwt: {
-          name: "Web3Auth-Auth0-JWT",
-          verifier: "web3auth-auth0-demo",
-          typeOfLogin: "jwt",
-          clientId: "294QRkchfq2YaXUbPri7D6PH7xzHgQMT",
-        },
-        google: {
-          verifier: "Warranty", // Pass the Verifier name here
-          typeOfLogin: "google", // Pass on the login provider of the verifier you've created
-          clientId:
-            "396097899910-lj5lq2vm75thigo6t5l2fjiv3d7gsn6n.apps.googleusercontent.com", // Pass on the Google `Client ID` here
-        },
-      },
-    },
-  });
-  web3AuthInstance.configureAdapter(openloginAdapter);
-  // await web3AuthInstance.connect();
-  return {
-    id: "web3auth",
-    name,
-    iconUrl,
-    iconBackground: "#fff",
-    createConnector: () => {
-      const connector = new Web3AuthConnector({
-        chains: chains,
-        options: {
-          web3AuthInstance,
-          loginParams: {
-            relogin: true,
-            loginProvider: "jwt",
-            extraLoginOptions: {
-              domain: "https://warrantynft.netlify.app",
-              verifierIdField: "sub",
-            },
-          },
-        },
+  async getAccounts() {
+    try {
+      const ethersProvider = new ethers.providers.Web3Provider(this.provider);
+      const signer = ethersProvider.getSigner();
+
+      // Get user's Ethereum public address
+      const address = await signer.getAddress();
+
+      return address;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getBalance() {
+    try {
+      const ethersProvider = new ethers.providers.Web3Provider(this.provider);
+      const signer = ethersProvider.getSigner();
+
+      // Get user's Ethereum public address
+      const address = await signer.getAddress();
+
+      // Get user's balance in ether
+      const balance = ethers.utils.formatEther(
+        // Balance is in wei
+        await ethersProvider.getBalance(address)
+      );
+
+      return balance;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async sendTransaction() {
+    try {
+      const ethersProvider = new ethers.providers.Web3Provider(this.provider);
+      const signer = ethersProvider.getSigner();
+
+      const destination = "0x40e1c367Eca34250cAF1bc8330E9EddfD403fC56";
+
+      // Convert 1 ether to wei
+      const amount = ethers.utils.parseEther("0.001");
+
+      // Submit transaction to the blockchain
+      const tx = await signer.sendTransaction({
+        to: destination,
+        value: amount,
+        maxPriorityFeePerGas: "5000000000", // Max priority fee per gas
+        maxFeePerGas: "6000000000000", // Max fee per gas
       });
-      return {
-        connector,
-      };
-    },
-  };
-};
-export default Web3AuthConnectorComp;
+
+      // Wait for transaction to be mined
+      const receipt = await tx.wait();
+
+      return receipt;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async signMessage() {
+    try {
+      const ethersProvider = new ethers.providers.Web3Provider(this.provider);
+      const signer = ethersProvider.getSigner();
+
+      const originalMessage = "YOUR_MESSAGE";
+
+      // Sign the message
+      const signedMessage = await signer.signMessage(originalMessage);
+
+      return signedMessage;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getPrivateKey() {
+    try {
+      const privateKey = await this.provider.request({
+        method: "eth_private_key",
+      });
+
+      return privateKey;
+    } catch (error) {
+      return error;
+    }
+  }
+}
