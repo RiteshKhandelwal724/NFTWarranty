@@ -45,7 +45,7 @@ export default function LoginComp() {
   const [fromGoogle, setFromGoogle] = useAtom(fromGoogleState);
 
   const clientId =
-    "BPm3vzCDTMfEEd6xBzGDXu0h2cLmxoFQ6VB5IC0CJCsr2Lr7U50F3AaFtyiq60BSNqZEboihHFos1UfoHJReluY"; // get from https://dashboard.web3auth.io
+    "BEglQSgt4cUWcj6SKRdu5QkOXTsePmMcusG5EAoyjyOYKlVRjIF1iCNnMOTfpzCiunHRrMui8TIwQPXdkQ8Yxuk"; // get from https://dashboard.web3auth.io
   const Navigate = useNavigate();
   const [token, setToken] = useToken();
   const [currentStep, setCurrentStep] = useState("0");
@@ -100,10 +100,10 @@ export default function LoginComp() {
         adapterSettings: {
           loginConfig: {
             google: {
-              verifier: "Warranty", // Pass the Verifier name here
-              typeOfLogin: "google", // Pass on the login provider of the verifier you've created
+              verifier: "web3auth-google-example",
+              typeOfLogin: "google",
               clientId:
-                "396097899910-lj5lq2vm75thigo6t5l2fjiv3d7gsn6n.apps.googleusercontent.com", // Pass on the Google `Client ID` here
+                "774338308167-q463s7kpvja16l4l0kko3nb925ikds2p.apps.googleusercontent.com", //use your app client id you got from google
             },
           },
         },
