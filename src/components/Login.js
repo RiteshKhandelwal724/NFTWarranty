@@ -100,10 +100,10 @@ export default function LoginComp() {
         adapterSettings: {
           loginConfig: {
             google: {
-              verifier: "web3auth-google-example",
-              typeOfLogin: "google",
+              verifier: "Warranty", // Pass the Verifier name here
+              typeOfLogin: "google", // Pass on the login provider of the verifier you've created
               clientId:
-                "774338308167-q463s7kpvja16l4l0kko3nb925ikds2p.apps.googleusercontent.com", //use your app client id you got from google
+                "396097899910-lj5lq2vm75thigo6t5l2fjiv3d7gsn6n.apps.googleusercontent.com", // Pass on the Google `Client ID` here
             },
           },
         },
