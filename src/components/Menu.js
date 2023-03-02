@@ -79,7 +79,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 const clientId =
-  "BEglQSgt4cUWcj6SKRdu5QkOXTsePmMcusG5EAoyjyOYKlVRjIF1iCNnMOTfpzCiunHRrMui8TIwQPXdkQ8Yxuk"; // get from https://dashboard.web3auth.io
+  "BPm3vzCDTMfEEd6xBzGDXu0h2cLmxoFQ6VB5IC0CJCsr2Lr7U50F3AaFtyiq60BSNqZEboihHFos1UfoHJReluY"; // get from https://dashboard.web3auth.io
 
 //search as JSX
 

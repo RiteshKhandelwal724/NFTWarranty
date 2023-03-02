@@ -45,7 +45,7 @@ export default function LoginComp() {
   const [fromGoogle, setFromGoogle] = useAtom(fromGoogleState);
 
   const clientId =
-    "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc"; // get from https://dashboard.web3auth.io
+    "BPm3vzCDTMfEEd6xBzGDXu0h2cLmxoFQ6VB5IC0CJCsr2Lr7U50F3AaFtyiq60BSNqZEboihHFos1UfoHJReluY"; // get from https://dashboard.web3auth.io
   const Navigate = useNavigate();
   const [token, setToken] = useToken();
   const [currentStep, setCurrentStep] = useState("0");
