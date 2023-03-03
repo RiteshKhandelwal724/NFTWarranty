@@ -11,7 +11,7 @@ import { useAtom } from "jotai";
 import { providerState, web3AuthState } from "../store";
 
 const clientId =
-  "BEglQSgt4cUWcj6SKRdu5QkOXTsePmMcusG5EAoyjyOYKlVRjIF1iCNnMOTfpzCiunHRrMui8TIwQPXdkQ8Yxuk"; // get from https://dashboard.web3auth.io
+  "BIugJen7zx11ZL_0BY2Ocu5ezJWDTNc1nvcNBn6flYmYKSwPCLmDn02f2V9k4yEkUJQkH9HK88BswpZXD9gLDuc"; // get from https://dashboard.web3auth.io
 function App() {
   const [web3auth, setWeb3auth] = useAtom(web3AuthState);
   const [providers, setProvider] = useAtom(providerState);
