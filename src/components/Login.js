@@ -93,18 +93,16 @@ export default function LoginComp() {
           chainNamespace: CHAIN_NAMESPACES.EIP155,
           chainId: "0x5",
         },
-        web3AuthNetwork: "cyan",
+        web3AuthNetwork: "testnet",
       });
 
       const openloginAdapter = new OpenloginAdapter({
         adapterSettings: {
           loginConfig: {
-            google: {
-              verifier: "Warranty",
-              typeOfLogin: "google",
-              clientId:
-                "396097899910-lj5lq2vm75thigo6t5l2fjiv3d7gsn6n.apps.googleusercontent.com", //use your app client id you got from google
-            },
+            verifier: "Warranty",
+            typeOfLogin: "google",
+            clientId:
+              "396097899910-lj5lq2vm75thigo6t5l2fjiv3d7gsn6n.apps.googleusercontent.com", //use your app client id you got from google
           },
         },
       });

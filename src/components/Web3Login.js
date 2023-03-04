@@ -24,17 +24,17 @@ function App() {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x5",
           },
-          web3AuthNetwork: "cyan",
+          web3AuthNetwork: "testnet",
         });
 
         const openloginAdapter = new OpenloginAdapter({
           adapterSettings: {
             loginConfig: {
               google: {
-                verifier: "web3auth-google-example",
+                verifier: "Warranty",
                 typeOfLogin: "google",
                 clientId:
-                  "774338308167-q463s7kpvja16l4l0kko3nb925ikds2p.apps.googleusercontent.com", //use your app client id you got from google
+                  "396097899910-lj5lq2vm75thigo6t5l2fjiv3d7gsn6n.apps.googleusercontent.com", //use your app client id you got from google
               },
             },
           },
@@ -115,6 +115,15 @@ function App() {
     setProvider(null);
   };
 
+  const logoutAuth = async () => {
+    if (!web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    await web3auth.logout();
+    setProvider(null);
+  };
+
   const loggedInView = (
     <>
       <Grid container sx={{ padding: "20px" }}>
@@ -154,6 +163,9 @@ function App() {
             </Grid>
             <Grid item>
               <Button onClick={getPrivateKey}>Private key</Button>
+            </Grid>
+            <Grid item>
+              <Button onClick={logoutAuth}>Logout</Button>
             </Grid>
 
             {/* <Grid item>
