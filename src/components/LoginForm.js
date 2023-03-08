@@ -59,6 +59,7 @@ const LoginForm = ({ setToken }) => {
             setToken(res?.data?.userToken);
             if (res?.data?.userRole === "2") {
               if (
+                sessionStorage.getItem("previousPath") &&
                 sessionStorage
                   .getItem("previousPath")
                   .startsWith("/ProductDescription")
