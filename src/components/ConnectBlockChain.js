@@ -23,7 +23,10 @@ const ConnectBlockChain = () => {
     const provider = new ethers.providers.JsonRpcProvider(
       "https://goerli.infura.io/v3/635b9815bd784fcc9819d8b992250dce"
     );
-    const signerNew = new ethers.Wallet(privateKey, provider);
+    const signerNew = new ethers.Wallet(
+      "0bf6bda06887320b8bad6722a4f1246a45a726cfbd8c656b6a937e5baf02473f",
+      provider
+    );
     const warrantyCon = new ethers.Contract(
       "0xE48C1327CBf10747D3f13120C39349C8419ed268",
       Warranty.abi,
