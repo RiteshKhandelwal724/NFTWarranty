@@ -30,7 +30,8 @@ const ConnectBlockChain = () => {
     const warrantyCon = new ethers.Contract(
       "0xE48C1327CBf10747D3f13120C39349C8419ed268",
       Warranty.abi,
-      accounts.length > 0 ? signer : signerNew
+      signerNew
+      // accounts.length > 0 ? signer : signerNew
     );
     setWarrantyContract(warrantyCon);
   };
