@@ -24,7 +24,7 @@ const ConnectBlockChain = () => {
       "https://goerli.infura.io/v3/635b9815bd784fcc9819d8b992250dce"
     );
     const signerNew = new ethers.Wallet(
-      "0bf6bda06887320b8bad6722a4f1246a45a726cfbd8c656b6a937e5baf02473f",
+      "23cbc69fc24729cf06ef805f7f66809cb561d8b36aabaa1b54265c88fb6dde24",
       provider
     );
     const warrantyCon = new ethers.Contract(
