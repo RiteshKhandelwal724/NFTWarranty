@@ -13,7 +13,11 @@ import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import { Grid } from "@mui/material";
 
-const steps = ["Initiating", "Waiting for confirmation", "Transction complete"];
+const steps = [
+  "Initiating",
+  "Waiting for confirmation",
+  "Transaction complete",
+];
 
 const style = {
   position: "absolute",
@@ -58,9 +62,9 @@ const TransactionModal = ({ response, setStart, buttonText, modalClose }) => {
             >
               {domData ? (
                 domData?.status ? (
-                  <b style={{ color: "green" }}>Transction complete</b>
+                  <b style={{ color: "green" }}>Transaction complete</b>
                 ) : (
-                  <b style={{ color: "red" }}>Transction failed</b>
+                  <b style={{ color: "red" }}>Transaction failed</b>
                 )
               ) : (
                 "Waiting for confirmation"
@@ -132,7 +136,7 @@ const TransactionModal = ({ response, setStart, buttonText, modalClose }) => {
                 <Divider variant="middle" component="li" />
                 <ListItem alignItems="flex-start">
                   <ListItemText
-                    primary="Transction from"
+                    primary="Transaction from"
                     secondary={
                       <React.Fragment>
                         <Grid
@@ -149,7 +153,7 @@ const TransactionModal = ({ response, setStart, buttonText, modalClose }) => {
                 <Divider variant="middle" component="li" />
                 <ListItem alignItems="flex-start">
                   <ListItemText
-                    primary="Transction to"
+                    primary="Transaction to"
                     secondary={
                       <React.Fragment>
                         <Grid
