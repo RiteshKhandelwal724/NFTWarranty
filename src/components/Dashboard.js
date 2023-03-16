@@ -728,7 +728,7 @@ function Dashboard() {
                             textTransform: "none",
                           }}
                         >
-                          Your Profile
+                          My Profile
                         </NavLink>
                       </Grid>
                       <Grid item>
