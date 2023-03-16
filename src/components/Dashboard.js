@@ -716,7 +716,7 @@ function Dashboard() {
                     >
                       <Grid item>
                         <NavLink
-                          to="/LoginAuth"
+                          to="/Profile"
                           style={{
                             marginLeft: "3vw",
                             marginRight: "3vw",
@@ -728,7 +728,7 @@ function Dashboard() {
                             textTransform: "none",
                           }}
                         >
-                          Auth Screen
+                          Your Profile
                         </NavLink>
                       </Grid>
                       <Grid item>
