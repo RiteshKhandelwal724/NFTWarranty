@@ -11,9 +11,8 @@ import React, { useState } from "react";
 import { getRequestLoggedIn } from "../functions/apiClient";
 import { productDetailsEp } from "../endpoints";
 import { useAtom } from "jotai";
-import { prodData, prodImages, verifyWarrantyState } from "../store";
+import { prodData, prodImages } from "../store";
 import ErrorModal from "./ErrorModal";
-import WarrantySolutions from "./WarrantySolutions";
 
 // components
 // ----------------------------------------------------------------------
@@ -26,8 +25,6 @@ const LoginForm = () => {
   const [product, setProduct] = useAtom(prodData);
   const [productImages, setProductImages] = useAtom(prodImages);
   const [open, setOpen] = useState(false);
-  const [verifyWarranty, setVerifyWarranty] = useAtom(verifyWarrantyState);
-
   const Navigate = useNavigate();
   const productSchema = Yup.object().shape({
     productNumber: Yup.string()

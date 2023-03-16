@@ -3,24 +3,21 @@ import { useAtom } from "jotai";
 import React, { useState } from "react";
 import { addUserProduct } from "../endpoints";
 import { postRequestLoggedIn } from "../functions/apiClient";
-import { prodData, verifyWarrantyState } from "../store";
+import { prodData } from "../store";
 import ErrorModal from "./ErrorModal";
 import ExtendedWarrantyBenefitsModal from "./ExtendedWarrantyBenefitsModal";
 import SuccessModal from "./SuccessModal";
 const RenderModal = ({ open, setOpen }) => {
   const [productData] = useAtom(prodData);
-  const [verifyWarranty, setVerifyWarranty] = useAtom(verifyWarrantyState);
   const [successModal, setSuccessModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
 
   const onClickHandler2 = async () => {
     try {
-      let res;
-      res = await postRequestLoggedIn(addUserProduct, {
+      const res = await postRequestLoggedIn(addUserProduct, {
         productId: productData.productSerialNumber,
       });
       if (res?.status_code === "200") {
-        setVerifyWarranty("1");
         setSuccessModal(true);
       } else setErrorModal(true);
     } catch (error) {
@@ -34,8 +31,7 @@ const RenderModal = ({ open, setOpen }) => {
       <SuccessModal
         open={successModal}
         handleClose={() => {
-          setSuccessModal(false);
-          setOpen(false);
+          window.location.reload(true);
         }}
         message="Warranty Activation is Successful"
         subMessage="Please reach out for any assistance"
@@ -44,9 +40,7 @@ const RenderModal = ({ open, setOpen }) => {
       <ExtendedWarrantyBenefitsModal
         open={open}
         setOpen={setOpen}
-        onClickHandler={() => {
-          onClickHandler2();
-        }}
+        onClickHandler={onClickHandler2}
       />
     </Grid>
   );
