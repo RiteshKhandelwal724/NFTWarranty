@@ -114,67 +114,63 @@ const AddProduct = () => {
     setFocus2(false);
     if (!expirationDate) setExpirationError("Enter the Expiration date");
   };
-
-  const {
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    ...props
-  } = useFormik({
-    initialValues: productDetails,
-    validationSchema: productValidation,
-    onSubmit: async (data) => {
-      setButtonClicked(true);
-      if (!(purchaseDate && expirationDate)) {
-      } else {
-        setStart(true);
-        //setAddProductsData([...addProductsData, data]);
-        const responseMint = await mintHandler(warrantyContract);
-        const tokenId = parseInt(
-          responseMint?.events[0]?.args?.tokenId._hex,
-          16
-        );
-        const dataResp = await addDataClickHandler(
-          warrantyContract,
-          tokenId,
-          JSON.stringify(data)
-        );
-
-        const resp = await getMetaData(warrantyContract, tokenId);
-        let productData = JSON.parse(resp);
-        const updateDateFunction = (date) => {
-          return moment(date, "YYYY-MM-DD hh:mm:ss").format("YYYY-MM-DD");
-        };
-        const product = (productData = {
-          ...productData,
-          tokenId: `${tokenId}`,
-          dateOfPurchase: updateDateFunction(purchaseDate),
-          warrantyPeriod: updateDateFunction(expirationDate),
-          locatioOfPurchase: productData.locationOfPurchase,
-          productImages: base64Image,
-        });
-
-        const res = await postRequestLoggedIn(addEditProduct, product);
-        if (res?.status_code === "200") {
-          // setOpen(true);
-          setResponseState(dataResp);
-          setQrVisible(true);
-          setAddProductData(
-            `https://warrantynft.netlify.app/ProductDescription?prodId=${values.productSerialNumber}`
-          );
-          setpurchaseDate("");
-          setExpirationDate("");
-          values.locationOfPurchase = "";
-          values.productSerialNumber = "";
-          values.typeOfWarrantyCoverage = "";
-          setQrVisible(true);
-        }
+  const submitFun = async (data) => {
+    setButtonClicked(true);
+    if (!(purchaseDate && expirationDate)) {
+    } else {
+      setStart(true);
+      //setAddProductsData([...addProductsData, data]);
+      const responseMint = await mintHandler(warrantyContract);
+      const tokenId = parseInt(responseMint?.events[0]?.args?.tokenId._hex, 16);
+      if (!tokenId) {
+        setStart(false);
+        return;
       }
-    },
-  });
+      const dataResp = await addDataClickHandler(
+        warrantyContract,
+        tokenId,
+        JSON.stringify(data)
+      );
+
+      const resp = await getMetaData(warrantyContract, tokenId);
+      let productData = JSON.parse(resp);
+      const updateDateFunction = (date) => {
+        return moment(date, "YYYY-MM-DD hh:mm:ss").format("YYYY-MM-DD");
+      };
+      const product = (productData = {
+        ...productData,
+        tokenId: `${tokenId}`,
+        dateOfPurchase: updateDateFunction(purchaseDate),
+        warrantyPeriod: updateDateFunction(expirationDate),
+        locatioOfPurchase: productData.locationOfPurchase,
+        productImages: base64Image,
+      });
+
+      const res = await postRequestLoggedIn(addEditProduct, product);
+      if (res?.status_code === "200") {
+        // setOpen(true);
+        setResponseState(dataResp);
+        setQrVisible(true);
+        setAddProductData(
+          `https://warrantynft.netlify.app/ProductDescription?prodId=${values.productSerialNumber}`
+        );
+        setpurchaseDate("");
+        setExpirationDate("");
+        values.locationOfPurchase = "";
+        values.productSerialNumber = "";
+        values.typeOfWarrantyCoverage = "";
+        setQrVisible(true);
+      }
+    }
+  };
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: productDetails,
+      validationSchema: productValidation,
+      onSubmit: async (data) => {
+        submitFun(data);
+      },
+    });
   const changeHandler = async (e) => {
     const selectedFiles = e.target.files;
     const selectedFilesArray = Array.from(selectedFiles);

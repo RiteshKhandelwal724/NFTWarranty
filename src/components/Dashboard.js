@@ -24,7 +24,6 @@ import {
 } from "@mui/material";
 import { dateFormat, getRequestLoggedIn } from "../functions/apiClient";
 // import { ApplicationContext } from "../Context/ApplicationContext";
-import { toNumber } from "lodash";
 import ThemeProvider from "../Theme/index.js";
 import { dashboardRecords, productList } from "../endpoints";
 import { profileState } from "../store";
